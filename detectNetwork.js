@@ -12,11 +12,14 @@
 // 343456789012345 (American Express)
 // 373456789012345 (American Express)
 
+
 function getPrefix(num){
 
-  	let pfix = num.substring(0,2);
-  	//console.log(pfix);
-  	return pfix;
+  if(num.substring(0,1) === '4'){
+    return '4';
+  } else {
+    return num.substring(0,2);
+  }
 }
 
 var detectNetwork = function(cardNumber) {
@@ -31,6 +34,15 @@ var detectNetwork = function(cardNumber) {
   	return "Diner's Club";
   }else if(cardNumber.length === 15 && (getPrefix(cardNumber) === '34' || getPrefix(cardNumber) === '37')){
   	return "American Express";
+  }else if((cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19) && getPrefix(cardNumber) === '4'){
+    return "Visa";
+  }else if(cardNumber.length === 16 && 
+    (getPrefix(cardNumber) === '51' ||
+      getPrefix(cardNumber) === '52' ||
+      getPrefix(cardNumber) === '53' ||
+      getPrefix(cardNumber) === '54' ||
+      getPrefix(cardNumber) === '55')){
+    return "Mastercard";
   }else{
   	return false;
   }
@@ -44,54 +56,162 @@ function assertEqual(actual, expected, testName){
 	}
 }
 
+// STEP TWO:
+// Nice work! Extend your function to support two popular networks, Visa and Mastercard:
 
-// //correct prefix and number length
+// Visa always has a prefix of 4 and a length of 13, 16, or 19.
+// MasterCard always has a prefix of 51, 52, 53, 54, or 55 and a length of 16.
 
-// console.log("Tests should pass below:");
+// Make sure that you continue to support Diner's Club and American Express cards. Keep testing your implementation here in the console.
 
-//every combo:
-//14 and 38
-//14 and 39
-//15 and 38
-//15 and 39
-//14 and 34
-//14 and 37
-//15 and 34
-//15 and 37
+// Here's a list of card numbers you can try to ensure that your function works for every combination of prefix and length: 
+
+// 38345678901234 (Diner's Club)
+// 39345678901234 (Diner's Club)
+// 343456789012345 (American Express)
+// 373456789012345 (American Express)
+// 4123456789012 (Visa)
+// 4123456789012345 (Visa)
+// 4123456789012345678 (Visa)
+// 5112345678901234 (MasterCard)
+// 5212345678901234 (MasterCard)
+// 5312345678901234 (MasterCard)
+// 5412345678901234 (MasterCard)
+// 5512345678901234 (MasterCard)
+
+let prefixes = [4, 34, 37, 38, 39, 51, 52, 53, 54, 55];
+let lengths = [13, 14, 15, 16, 19];
+
+function turnNumberToString(){
+
+}
+
+let codes = {
+  13: 1000000000000,
+  14: 10000000000000,
+  15: 100000000000000,
+  16: 1000000000000000,
+  19: 1000000000000000000
+}
+
+function generateRandom(prefix, lengthOfNumber){
+  //return prefix;
+  
+  if(prefix.toString().length === 1){
+    let random = Math.floor(codes[lengthOfNumber] + Math.random() * (codes[lengthOfNumber] * 9));
+    let suffix = random.toString().split("");
+
+    suffix.shift();
+
+    return prefix + suffix.join("");
+
+  }else{
+    let random = Math.floor(codes[lengthOfNumber] + Math.random() * (codes[lengthOfNumber] * 9));
+    let suffix = random.toString().split("");
+
+    suffix.shift();
+    suffix.shift();
+
+    return prefix + suffix.join("");
+
+  }
+  
+}
+
+function getCombinationsArray(p,l){
+  //let count = 0;
+  let combinationArray = [];
+  let prefixes = p;
+  let lengths = l;
+
+  prefixes.forEach(function(pre){
+    lengths.forEach(function(length){
+      combinationArray.push(generateRandom(pre, length))
+    })
+  })
+  return combinationArray;
+}
+
+let combos = getCombinationsArray(prefixes, lengths);
+
+function runCombos(combinations){
+  let network = [];
+
+  combinations.forEach(function(val){
+    network.push(detectNetwork(val));
+
+  })
+
+  return network;
+}
+
+function run(){
+  let res = runCombos(combos);
+  return res;
+}
+
+// combos.forEach(function(val, index){
+//   console.log("Test No. " + (index + 1) + " " + val + " length: " + val.length + " network: " + detectNetwork(val));
+// })
 
 
-// assertEqual(detectNetwork('38345678901234'), "Diner's Club", "14 Digit Number & Prefix: 38"); //Should Pass
-// assertEqual(detectNetwork('39345678901234'), "Diner's Club", "14 Digit Number & Prefix: 39"); //Should Pass
-// assertEqual(detectNetwork('383456789012345'), "Diner's Club", "15 Digit Number & Prefix: 38"); //Should Fail
-// assertEqual(detectNetwork('393456789012345'), "Diner's Club", "15 Digit Number & Prefix: 39"); //Should Fail
+// function runAgain(){
+//   detectNetwork("38345678901234");
+//   detectNetwork("39345678901234");
+//   detectNetwork("343456789012345");
+//   detectNetwork("373456789012345");
+//   detectNetwork("4123456789012");
+//   detectNetwork("4123456789012345");
+//   detectNetwork("4123456789012345678");
+//   detectNetwork("5112345678901234");
+//   detectNetwork("5212345678901234");
+//   detectNetwork("5312345678901234");
+//   detectNetwork("5412345678901234");
+//   detectNetwork("5512345678901234");
+// }
 
-// assertEqual(detectNetwork('34345678901234'), "American Express", "14 Digit Number & Prefix: 34"); //Should Pass
-// assertEqual(detectNetwork('37345678901234'), "American Express", "14 Digit Number & Prefix: 37"); //Should Pass
-// assertEqual(detectNetwork('343456789012345'), "American Express", "15 Digit Number & Prefix: 34"); //Should Fail
-// assertEqual(detectNetwork('373456789012345'), "American Express", "15 Digit Number & Prefix: 37"); //Should Fail
+function assertEqual(expected, actual, testname){
+  if(expected === actual){
+    console.log("Passed");
+  }else{
+    console.log("Failed")  
+  }
+}
 
-assertEqual(getPrefix("38345678901234"), "38", "Testing 38");
-assertEqual(getPrefix("39345678901234"), "39", "Testing 39");
-assertEqual(getPrefix("34345678901234"), "34", "Testing 34");
-assertEqual(getPrefix("37345678901234"), "37", "Testing 37");
+assertEqual(detectNetwork("38345678901234"), "Diner's Club", "Checking if Network is correct");
+assertEqual(detectNetwork("39345678901234"), "Diner's Club", "Checking if Network is correct");
+assertEqual(detectNetwork("343456789012345"), "American Express", "Checking if Network is correct");
+assertEqual(detectNetwork("373456789012345"), "American Express", "Checking if Network is correct");
+assertEqual(detectNetwork("4123456789012"), "Visa", "Checking if Network is correct");
+assertEqual(detectNetwork("4123456789012345"), "Visa", "Checking if Network is correct");
+assertEqual(detectNetwork("4123456789012345678"), "Visa", "Checking if Network is correct");
+assertEqual(detectNetwork("5112345678901234"), "Mastercard", "Checking if Network is correct");
+assertEqual(detectNetwork("5212345678901234"), "Mastercard", "Checking if Network is correct");
+assertEqual(detectNetwork("5312345678901234"), "Mastercard", "Checking if Network is correct");
+assertEqual(detectNetwork("5412345678901234"), "Mastercard", "Checking if Network is correct");
+assertEqual(detectNetwork("5512345678901234"), "Mastercard", "Checking if Network is correct");
 
-// console.log("Tests should fail below:");
 
-// //incorrect prefix but correct number length
+// 38345678901234 (Diner's Club)
+// 39345678901234 (Diner's Club)
+// 343456789012345 (American Express)
+// 373456789012345 (American Express)
+// 4123456789012 (Visa)
+// 4123456789012345 (Visa)
+// 4123456789012345678 (Visa)
+// 5112345678901234 (MasterCard)
+// 5212345678901234 (MasterCard)
+// 5312345678901234 (MasterCard)
+// 5412345678901234 (MasterCard)
+// 5512345678901234 (MasterCard)
 
-// assertEqual(detectNetwork('33345678901234'), "Diner's Club", "14 Digit Number & Prefix: 38"); //Should Fail
-// assertEqual(detectNetwork('33345678901234'), "Diner's Club", "14 Digit Number & Prefix: 39"); //Should Fail
-// assertEqual(detectNetwork('333456789012345'), "American Express", "15 Digit Number & Prefix: 34"); //Should Fail
-// assertEqual(detectNetwork('333456789012345'), "American Express", "15 Digit Number & Prefix: 37"); //Should Fail
 
-// console.log("Tests should fail below:");
 
-// //correct prefix but incorrect number length
 
-// assertEqual(detectNetwork('38345678901'), "Diner's Club", "14 Digit Number & Prefix: 38"); //Should Fail
-// assertEqual(detectNetwork('3934567'), "Diner's Club", "14 Digit Number & Prefix: 39"); //Should Fail
-// assertEqual(detectNetwork('3434567890123'), "American Express", "15 Digit Number & Prefix: 34"); //Should Fail
-// assertEqual(detectNetwork('3734567890'), "American Express", "15 Digit Number & Prefix: 37"); //Should Fail
 
-// assertEqual(detectNetwork(''), "Diner's Club", "14 Digit Number & Prefix: 39"); //Should Fail
-// assertEqual(detectNetwork(''), "American Express", "15 Digit Number & Prefix: 37"); //Should Fail
+
+
+
+
+
+
