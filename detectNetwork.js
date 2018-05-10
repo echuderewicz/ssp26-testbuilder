@@ -75,7 +75,6 @@ assertEqual(getPrefix("39345678901234"), "39", "Testing 39");
 assertEqual(getPrefix("34345678901234"), "34", "Testing 34");
 assertEqual(getPrefix("37345678901234"), "37", "Testing 37");
 
-
 // console.log("Tests should fail below:");
 
 // //incorrect prefix but correct number length
