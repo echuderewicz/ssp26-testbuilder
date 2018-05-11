@@ -22,7 +22,7 @@ function getPrefix(num){
   }
 }
 
-var detectNetwork = function(cardNumber) {
+var detectNetworkOld = function(cardNumber) {
   // Note: `cardNumber` will always be a string
   // The Diner's Club network always starts with a 38 or 39 and is 14 digits long
   // The American Express network always starts with a 34 or 37 and is 15 digits long
@@ -47,6 +47,32 @@ var detectNetwork = function(cardNumber) {
   	return false;
   }
 };
+
+function getFirstTwoDigits(cn){
+  return cn.slice(0,1);
+
+}
+
+function detectNetwork(cardNumber){
+  let firstTwoDigits = getFirstTwoDigits(cardNumber);
+  let lengthOfCard = cardNumber.length;
+
+  var isVisa = (parseInt(firstTwoDigits/10) === 4) && (lengthOfCard === 13 || lengthOfCard === 16 || lengthOfCard === 19);
+  var isMastercard = (parseInt(firstTwoDigits) === 4) && (lengthOfCard === 13 || lengthOfCard === 16 || lengthOfCard === 19);
+  var isDiners = (parseInt(firstTwoDigits) === 4) && (lengthOfCard === 13 || lengthOfCard === 16 || lengthOfCard === 19);
+  var isAmex = (parseInt(firstTwoDigits) === 4) && (lengthOfCard === 13 || lengthOfCard === 16 || lengthOfCard === 19);
+
+  if(isVisa){
+    return 'Visa';
+  }
+
+
+
+
+}
+
+//provided to me by Nikshala
+//var isVisa = (parseInt(firstTwoDigits/10) === 4) && (lengthOfCard === 13 || lengthOfCard === 16 || lengthOfCard === 19);
 
 function assertEqual(actual, expected, testName){
 	if(actual === expected){
