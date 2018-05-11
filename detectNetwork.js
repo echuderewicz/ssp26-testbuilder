@@ -56,6 +56,7 @@ function assertEqual(actual, expected, testName){
 	}
 }
 
+
 // STEP TWO:
 // Nice work! Extend your function to support two popular networks, Visa and Mastercard:
 
