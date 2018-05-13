@@ -27,27 +27,37 @@ function getFirstTwoDigits(cn){
 }
 
 function detectNetwork(cardNumber){
-  let firstTwoDigits = getFirstTwoDigits(cardNumber);
-  let lengthOfCard = cardNumber.length;
 
+  var firstTwoDigits = parseInt(cardNumber.slice(0,2));
+  var firstThreeDigits = parseInt(cardNumber.slice(0,3))
+  var firstFourDigits = parseInt(cardNumber.slice(0,4));
+  var firstSixDigits = parseInt(cardNumber.slice(0,6));
+
+  var lengthOfCard = cardNumber.toString().length;
+  var isDiners = (firstTwoDigits === 38 || firstTwoDigits === 39) && lengthOfCard === 14;
+  var isAmex = (firstTwoDigits === 34 || firstTwoDigits === 37) && lengthOfCard === 15;
   var isVisa = (parseInt(firstTwoDigits/10) === 4) && (lengthOfCard === 13 || lengthOfCard === 16 || lengthOfCard === 19);
-  var isMastercard = (parseInt(firstTwoDigits) === 51 || parseInt(firstTwoDigits) === 52 || 
-                      parseInt(firstTwoDigits) === 53 || parseInt(firstTwoDigits) === 54 || 
-                      parseInt(firstTwoDigits) === 55) && lengthOfCard === 16;
-  var isDiners = (parseInt(firstTwoDigits) === 38 || parseInt(firstTwoDigits) === 39) && lengthOfCard === 14;
-  var isAmex = (parseInt(firstTwoDigits) === 34 || parseInt(firstTwoDigits) === 37) && lengthOfCard === 15;
+  var isMastercard = (firstTwoDigits >= 51 && firstTwoDigits <= 55) && lengthOfCard === 16;
+  var isDiscover = (firstFourDigits === 6011 || firstThreeDigits === 644 || 
+    firstThreeDigits === 645 || firstThreeDigits === 646 || firstThreeDigits === 647 || 
+    firstThreeDigits === 648 || firstThreeDigits === 649 || firstTwoDigits === 65) && (lengthOfCard === 16 || lengthOfCard === 19);
+  var isMaestro = (firstFourDigits === 5018 || firstFourDigits === 5020 || firstFourDigits === 5038 || firstFourDigits === 6304) && (lengthOfCard === 12 || lengthOfCard === 13 || lengthOfCard === 14 || lengthOfCard === 15 || lengthOfCard === 16 || lengthOfCard === 17 || lengthOfCard === 18 || lengthOfCard === 19)
 
 
   if(isVisa){
-    return 'Visa';
+    return "Visa";
   }else if(isMastercard){
-    return 'Mastercard';
+    return "MasterCard";
   }else if(isDiners){
     return "Diner's Club";
   }else if(isAmex){
     return "American Express";
+  }else if(isDiscover){
+    return "Discover";
+  }else if(isMaestro){
+    return "Maestro";
   }else{
-    return "";
+    return false;
   }
 }
 
