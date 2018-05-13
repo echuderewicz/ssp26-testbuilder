@@ -351,7 +351,26 @@ describe('Maestro', function() {
   
 });
 
-describe('should support China UnionPay')
+let cn = "6221260000000000";
+let pre = "622126";
+
+function someFunction(minPrefix, maxPrefix, length){
+
+  return autoGenCardNumberString;
+
+}
+
+describe('China UnionPay', function() {
+  var expect = chai.expect;
+
+  for(let i=0; i<1; i++){
+    it("Has a prefix of " + pre + " and a length of " + cn.length, function() {
+      expect(detectNetwork(cn)).to.equal('China UnionPay');
+    });
+  }
+});
+
+
 describe('should support Switch')
 
 

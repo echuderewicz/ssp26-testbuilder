@@ -34,6 +34,8 @@ function detectNetwork(cardNumber){
   var firstSixDigits = parseInt(cardNumber.slice(0,6));
 
   var lengthOfCard = cardNumber.toString().length;
+  
+  var isChina = ((622126 <= firstSixDigits && firstSixDigits <= 622925) || (624 <= firstSixDigits && firstSixDigits <= 626) || (6282 <= firstSixDigits && firstSixDigits <= 6288)) && (lengthOfCard === 16 || lengthOfCard === 18 || lengthOfCard === 19);
   var isDiners = (firstTwoDigits === 38 || firstTwoDigits === 39) && lengthOfCard === 14;
   var isAmex = (firstTwoDigits === 34 || firstTwoDigits === 37) && lengthOfCard === 15;
   var isVisa = (parseInt(firstTwoDigits/10) === 4) && (lengthOfCard === 13 || lengthOfCard === 16 || lengthOfCard === 19);
@@ -41,7 +43,7 @@ function detectNetwork(cardNumber){
   var isDiscover = (firstFourDigits === 6011 || firstThreeDigits === 644 || 
     firstThreeDigits === 645 || firstThreeDigits === 646 || firstThreeDigits === 647 || 
     firstThreeDigits === 648 || firstThreeDigits === 649 || firstTwoDigits === 65) && (lengthOfCard === 16 || lengthOfCard === 19);
-  var isMaestro = (firstFourDigits === 5018 || firstFourDigits === 5020 || firstFourDigits === 5038 || firstFourDigits === 6304) && (lengthOfCard === 12 || lengthOfCard === 13 || lengthOfCard === 14 || lengthOfCard === 15 || lengthOfCard === 16 || lengthOfCard === 17 || lengthOfCard === 18 || lengthOfCard === 19)
+  var isMaestro = (firstFourDigits === 5018 || firstFourDigits === 5020 || firstFourDigits === 5038 || firstFourDigits === 6304) && (lengthOfCard === 12 || lengthOfCard === 13 || lengthOfCard === 14 || lengthOfCard === 15 || lengthOfCard === 16 || lengthOfCard === 17 || lengthOfCard === 18 || lengthOfCard === 19);
 
 
   if(isVisa){
@@ -56,6 +58,8 @@ function detectNetwork(cardNumber){
     return "Discover";
   }else if(isMaestro){
     return "Maestro";
+  }else if(isChina){
+    return "China UnionPay";
   }else{
     return false;
   }
