@@ -35,7 +35,7 @@ function detectNetwork(cardNumber){
 
   var lengthOfCard = cardNumber.toString().length;
 
-  var isChina = ((622126 <= firstSixDigits && firstSixDigits <= 622925) || (624 <= firstThreeDigits && firstThreeDigits <= 626) || (6282 <= firstFourDigits && firstFourDigits <= 6288)) && (lengthOfCard === 16 || lengthOfCard === 18 || lengthOfCard === 19);
+  var isChina = ((622126 <= firstSixDigits && firstSixDigits <= 622925) || (624 <= firstThreeDigits && firstThreeDigits <= 626) || (6282 <= firstFourDigits && firstFourDigits <= 6288)) && (lengthOfCard === 16 || lengthOfCard === 17 ||lengthOfCard === 18 || lengthOfCard === 19);
   var isDiners = (firstTwoDigits === 38 || firstTwoDigits === 39) && lengthOfCard === 14;
   var isAmex = (firstTwoDigits === 34 || firstTwoDigits === 37) && lengthOfCard === 15;
   var isVisa = (parseInt(firstTwoDigits/10) === 4) && (lengthOfCard === 13 || lengthOfCard === 16 || lengthOfCard === 19);

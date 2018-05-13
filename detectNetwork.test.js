@@ -385,11 +385,11 @@ describe('China UnionPay', function() {
   }
 
 //   testRange(622126, 622925, 16);
-   testRange(624, 626, 16);
+  testRange(624, 626, 16);
 //   testRange(6282, 6288, 16);
 
 //   testRange(622126, 622925, 17);
-//   testRange(624, 626, 17);
+  testRange(624, 626, 17);
 //   testRange(6282, 6288, 17);
 
 //   testRange(622126, 622925, 18);
