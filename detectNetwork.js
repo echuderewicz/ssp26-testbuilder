@@ -35,6 +35,9 @@ function detectNetwork(cardNumber){
 
   var lengthOfCard = cardNumber.toString().length;
 
+  //Switch network should be tested first.
+
+  var isSwitch = (firstFourDigits === 6333 || firstFourDigits === 6759 || firstFourDigits === 4903 || firstFourDigits === 4905 || firstFourDigits === 4911 || firstFourDigits === 4936 || firstSixDigits === 564182 || firstSixDigits === 633110) && (lengthOfCard === 16 || lengthOfCard === 18 || lengthOfCard === 19);
   var isChina = ((622126 <= firstSixDigits && firstSixDigits <= 622925) || (624 <= firstThreeDigits && firstThreeDigits <= 626) || (6282 <= firstFourDigits && firstFourDigits <= 6288)) && (lengthOfCard === 16 || lengthOfCard === 17 ||lengthOfCard === 18 || lengthOfCard === 19);
   var isDiners = (firstTwoDigits === 38 || firstTwoDigits === 39) && lengthOfCard === 14;
   var isAmex = (firstTwoDigits === 34 || firstTwoDigits === 37) && lengthOfCard === 15;
@@ -46,7 +49,9 @@ function detectNetwork(cardNumber){
   var isMaestro = (firstFourDigits === 5018 || firstFourDigits === 5020 || firstFourDigits === 5038 || firstFourDigits === 6304) && (lengthOfCard === 12 || lengthOfCard === 13 || lengthOfCard === 14 || lengthOfCard === 15 || lengthOfCard === 16 || lengthOfCard === 17 || lengthOfCard === 18 || lengthOfCard === 19);
 
 
-  if(isVisa){
+  if(isSwitch){
+    return "Switch";
+  }else if(isVisa){
     return "Visa";
   }else if(isMastercard){
     return "MasterCard";

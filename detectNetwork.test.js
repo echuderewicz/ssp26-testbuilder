@@ -42,6 +42,42 @@ describe('Introduction to Mocha Tests - READ ME FIRST', function() {
   });
 })
 
+function getZeros(suf){
+    let zeroString = "";
+
+    for(let i=0; i<suf; i++){
+      zeroString += "0";
+    }
+    return zeroString;
+}
+
+function getCardNumberString(prefix, length){
+  let prefixString = prefix.toString();
+
+  let suffixLength = (length - prefixString.length);
+  return prefixString + getZeros(suffixLength);
+}
+
+
+// Switch always has a prefix of 
+// 4903, 4905, 4911, 4936, 564182, 633110, 6333, or 6759 
+// and a length of 16, 18, or 19.
+
+describe('Switch', function() {
+  var expect = chai.expect;
+
+  var prefixes = [4903, 4905, 4911, 4936, 564182, 633110, 6333, 6759];
+  var lengths = [16, 18, 19];
+
+  lengths.forEach(function(cardLength){
+    prefixes.forEach(function(pre){
+      it("Has a prefix of " + pre + " and a length of " + cardLength, function() {
+        expect(detectNetwork(getCardNumberString(pre, cardLength))).to.equal('Switch');
+      });
+    });
+  });
+});
+
 describe('Diner\'s Club', function() {
   // Be careful, tests can have bugs too...
 
@@ -57,7 +93,6 @@ describe('Diner\'s Club', function() {
     if (detectNetwork('39345678901232') !== 'Diner\'s Club') {
       throw new Error('Test failed');
     }
- 
   });
 });
 
@@ -352,26 +387,10 @@ describe('Maestro', function() {
 });
 
 
+
+
 describe('China UnionPay', function() {
   var expect = chai.expect;
-
-  
-  function getZeros(suf){
-      let zeroString = "";
-
-      for(let i=0; i<suf; i++){
-        zeroString += "0";
-      }
-      return zeroString;
-  }
-
-  function getCardNumberString(prefix, length){
-    let prefixString = prefix.toString();
-
-    let suffixLength = (length - prefixString.length);
-
-    return prefixString + getZeros(suffixLength);
-  }
 
   function testRange(minPrefix, maxPrefix, length){
     for(let i=minPrefix; i<=maxPrefix; i++){
@@ -402,45 +421,6 @@ describe('China UnionPay', function() {
 
 
 });
-
-
-describe('should support Switch')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
