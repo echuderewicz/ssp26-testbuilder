@@ -352,21 +352,31 @@ describe('Maestro', function() {
 });
 
 
-
-
-
 describe('China UnionPay', function() {
   var expect = chai.expect;
 
-  function someFunction(minPrefix, maxPrefix, length){
+  
+  function getZeros(suf){
+      let zeroString = "";
 
-    function getCardNumberString(prefix){
-      return "6221260000000000";
-    }
+      for(let i=0; i<suf; i++){
+        zeroString += "0";
+      }
+      return zeroString;
+  }
 
+  function getCardNumberString(prefix, length){
+    let prefixString = prefix.toString();
+
+    let suffixLength = (length - prefixString.length);
+
+    return prefixString + getZeros(suffixLength);
+  }
+
+  function testRange(minPrefix, maxPrefix, length){
     for(let i=minPrefix; i<=maxPrefix; i++){
 
-      let autoString = getCardNumberString(i);
+      let autoString = getCardNumberString(i, length);
 
       it("Has a prefix of " + i.toString() + " and a length of " + length, function() {
         expect(detectNetwork(autoString)).to.equal('China UnionPay');
@@ -374,7 +384,22 @@ describe('China UnionPay', function() {
     }
   }
 
-  someFunction(622126, 622925, 16);
+//   testRange(622126, 622925, 16);
+   testRange(624, 626, 16);
+//   testRange(6282, 6288, 16);
+
+//   testRange(622126, 622925, 17);
+//   testRange(624, 626, 17);
+//   testRange(6282, 6288, 17);
+
+//   testRange(622126, 622925, 18);
+//   testRange(624, 626, 18);
+//   testRange(6282, 6288, 18);
+
+//   testRange(622126, 622925, 19);
+//   testRange(624, 626, 19);
+//   testRange(6282, 6288, 19);
+
 
 });
 
